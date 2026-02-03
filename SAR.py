@@ -186,9 +186,9 @@ class Attacker:
         image = copy.deepcopy(image_in)
         if self.args.RandResizePad == 1:
             transform = Compose([
-                RandomResizedCrop(size=224, scale=(0.8, 1.2)),  # 随机缩放+裁剪
-                Pad(padding=10, fill=0),  # 填充
-                RandomCrop(size=224)  # 随机裁剪
+                RandomResizedCrop(size=224, scale=(0.8, 1.2)), 
+                Pad(padding=10, fill=0), 
+                RandomCrop(size=224) 
             ])
             image = transform(image)
         predict_label = self.model.predict_label(torch.clamp(image,0.0,1.0)).cpu().item()
@@ -214,4 +214,5 @@ class Attacker:
             else:
                 out_adv_x[0] = adv_mid
             l2 = torch.norm((out_adv_x - self.x0).view(2, -1), dim=1)
+
         return out_adv_x, l2, num_calls
